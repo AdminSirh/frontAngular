@@ -1,0 +1,43 @@
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="auth-bg">
+      <span class="r"></span>
+      <span class="r s"></span>
+      <span class="r s"></span>
+      <span class="r"></span>
+    </div>
+    <div class="card">
+      <div class="card-body text-center">
+        <div class="mb-4">
+          <img src="../../../../../../assets/images/ste.png" alt="Icon" class="icon-image" />
+        </div>
+        <h3 class="mb-4">Inicio de Sesión</h3>
+
+        <!-- Añadimos el form con (ngSubmit) para manejar el envío de los datos -->
+        <form (ngSubmit)="login()">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nombre de usuario"
+              [(ngModel)]="loginData.username"
+              name="username"
+              required
+            />
+          </div>
+          <div class="input-group mb-4">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Contraseña"
+              [(ngModel)]="loginData.password"
+              name="password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary mb-4">Inicio de Sesión</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
