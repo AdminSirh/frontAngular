@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
+import { authGuard } from 'src/services/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,27 +16,33 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadComponent: () => import('./demo/dashboard/dashboard.component')
+        loadComponent: () => import('./demo/dashboard/dashboard.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'basic',
-        loadChildren: () => import('./demo/ui-elements/ui-basic/ui-basic.module').then((m) => m.UiBasicModule)
+        loadChildren: () => import('./demo/ui-elements/ui-basic/ui-basic.module').then((m) => m.UiBasicModule),
+        canActivate: [authGuard]
       },
       {
         path: 'forms',
-        loadChildren: () => import('./demo/pages/form-elements/form-elements.module').then((m) => m.FormElementsModule)
+        loadChildren: () => import('./demo/pages/form-elements/form-elements.module').then((m) => m.FormElementsModule),
+        canActivate: [authGuard]
       },
       {
         path: 'tables',
-        loadChildren: () => import('./demo/pages/tables/tables.module').then((m) => m.TablesModule)
+        loadChildren: () => import('./demo/pages/tables/tables.module').then((m) => m.TablesModule),
+        canActivate: [authGuard]
       },
       {
         path: 'apexchart',
-        loadComponent: () => import('./demo/chart/apex-chart/apex-chart.component')
+        loadComponent: () => import('./demo/chart/apex-chart/apex-chart.component'),
+        canActivate: [authGuard]
       },
       {
         path: 'sample-page',
-        loadComponent: () => import('./demo/extra/sample-page/sample-page.component')
+        loadComponent: () => import('./demo/extra/sample-page/sample-page.component'),
+        canActivate: [authGuard]
       }
     ]
   },
