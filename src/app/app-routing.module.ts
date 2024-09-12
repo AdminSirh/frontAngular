@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 import { authGuard } from 'src/services/auth.guard';
+import { MainComponent } from './pages/main/main.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,12 @@ const routes: Routes = [
       {
         path: 'sample-page',
         loadComponent: () => import('./demo/extra/sample-page/sample-page.component'),
+        canActivate: [authGuard]
+      },
+      //Agregados para el proyecto
+      {
+        path: 'home',
+        component: MainComponent,
         canActivate: [authGuard]
       }
     ]

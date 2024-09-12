@@ -41,7 +41,7 @@ export default class AuthSigninComponent {
         this.loginService.getCurrentUser().subscribe((user) => {
           // Guardamos la información del usuario
           this.loginService.setUser(user);
-          this.router.navigate(['/dashboard']); // Redirige al dashboard
+          this.router.navigate(['/home']); // Redirige al home de la aplicación
         });
       },
       (error) => {
