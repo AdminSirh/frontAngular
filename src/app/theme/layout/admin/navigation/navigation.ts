@@ -81,7 +81,7 @@ export class NavigationService {
             title: item.submenu.submenuNombre,
             type: 'item',
             url: item.submenu.descripcion,
-            icon: 'feather icon-circle'
+            icon: 'feather icon-chevrons-right'
           });
         });
 
