@@ -191,7 +191,7 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^18.0.0", "@angular/common@^18.0.0 || ^19.0.0", "@angular/common@^18.0.1", "@angular/common@^18.0.5", "@angular/common@>=17.0.0", "@angular/common@18.0.5":
+"@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^18.0.0", "@angular/common@^18.0.0 || ^19.0.0", "@angular/common@^18.0.1", "@angular/common@^18.0.5", "@angular/common@>=17.0.0", "@angular/common@18.0.5":
   version "18.0.5"
   resolved "https://registry.npmjs.org/@angular/common/-/common-18.0.5.tgz"
   integrity sha512-yItVQSu+Rx8gthWJDTOHwbzItY8/lqmmmYA1RMex0u3GkJoX3/3TZSGXbbBXl8GH8vmQOfp9yj3C02JmlwldRg==
@@ -219,14 +219,14 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^18.0.0", "@angular/core@^18.0.0 || ^19.0.0", "@angular/core@^18.0.1", "@angular/core@^18.0.5", "@angular/core@>=17.0.0", "@angular/core@18.0.5":
+"@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^18.0.0", "@angular/core@^18.0.0 || ^19.0.0", "@angular/core@^18.0.1", "@angular/core@^18.0.5", "@angular/core@>=17.0.0", "@angular/core@18.0.5":
   version "18.0.5"
   resolved "https://registry.npmjs.org/@angular/core/-/core-18.0.5.tgz"
   integrity sha512-0UuL+aMMWGYksz09YBsiHq1li7GmL8obB3IC3T5MwDqnn7FGRUBfBUOZEkM6B+pwgg+RAtNdJkbCfbh1z74bFQ==
   dependencies:
     tslib "^2.3.0"
 
-"@angular/forms@^18.0.0", "@angular/forms@^18.0.5":
+"@angular/forms@^17.0.0 || ^18.0.0", "@angular/forms@^18.0.0", "@angular/forms@^18.0.5":
   version "18.0.5"
   resolved "https://registry.npmjs.org/@angular/forms/-/forms-18.0.5.tgz"
   integrity sha512-nO7bN+nO2/czgKSvPx6ewqpfb8xXOyns06uovWpAXSH4jYoiZ6CHTHhOKrOL/3SRkhUV9u+EUXTTAOSBkS+OBA==
@@ -5050,6 +5050,13 @@ prettier@3.3.2:
   resolved "https://registry.npmjs.org/prettier/-/prettier-3.3.2.tgz"
   integrity sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==
 
+primeng@^17.18.10:
+  version "17.18.10"
+  resolved "https://registry.npmjs.org/primeng/-/primeng-17.18.10.tgz"
+  integrity sha512-P3UskInOZ7qYICxSYvf0K8nUEb7DmndiXmyvLGU1wch+XcVWmVs4FZsWKNfdvK7TUdxxYj8WW44nodNV/epr3A==
+  dependencies:
+    tslib "^2.3.0"
+
 proc-log@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/proc-log/-/proc-log-3.0.0.tgz"
@@ -5341,7 +5348,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-"rxjs@^6.5.3 || ^7.4.0", "rxjs@^6.5.5 || ^7.4.0", rxjs@^7.8.1, rxjs@>=7.0.0, rxjs@~7.8.1, rxjs@7.8.1:
+"rxjs@^6.0.0 || ^7.8.1", "rxjs@^6.5.3 || ^7.4.0", "rxjs@^6.5.5 || ^7.4.0", rxjs@^7.8.1, rxjs@>=7.0.0, rxjs@~7.8.1, rxjs@7.8.1:
   version "7.8.1"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-7.8.1.tgz"
   integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==

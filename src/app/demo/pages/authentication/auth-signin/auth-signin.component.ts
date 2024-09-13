@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
 import { LoginService } from '../../../../../services/login.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-auth-signin',
   standalone: true,
-  imports: [FormsModule, HttpClientModule, RouterModule], // Añade RouterModule
+  imports: [FormsModule, HttpClientModule, RouterModule, ToastModule],
   templateUrl: './auth-signin.component.html',
   styleUrls: ['./auth-signin.component.scss']
 })
@@ -21,13 +23,18 @@ export default class AuthSigninComponent {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
 
   // Método para manejar el inicio de sesión
   login() {
     if (this.loginData.username.trim() === '' || this.loginData.password.trim() === '') {
-      alert('Username and password are required'); // Cambia 'Email' a 'Username'
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Advertencia',
+        detail: 'El nombre de usuario y la contraseña son obligatorios'
+      });
       return;
     }
 
@@ -46,7 +53,11 @@ export default class AuthSigninComponent {
       },
       (error) => {
         console.error('Error during login', error);
-        alert('Invalid credentials, please try again');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Ocurrió un error al iniciar sesión: ' + error.error.message
+        });
       }
     );
   }

@@ -24,6 +24,10 @@ import { NavItemComponent } from './theme/layout/admin/navigation/nav-content/na
 import { NavSearchComponent } from './theme/layout/admin/nav-bar/nav-left/nav-search/nav-search.component';
 import { NavigationService } from './theme/layout/admin/navigation/navigation';
 import { ToggleFullScreenDirective } from './theme/shared/components/full-screen/toggle-full-screen';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { MessageService } from 'primeng/api';
 //Interceptor para las peticiones con bearer token
 import { authInterceptorProviders } from '../services/auth.interceptor';
 
@@ -45,8 +49,19 @@ import { authInterceptorProviders } from '../services/auth.interceptor';
     NavSearchComponent,
     ToggleFullScreenDirective
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, SharedModule, BrowserAnimationsModule, HttpClientModule],
-  providers: [NavigationService, authInterceptorProviders],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ToastModule,
+    ButtonModule,
+    RippleModule
+  ],
+  providers: [NavigationService, authInterceptorProviders, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

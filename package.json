@@ -28,6 +28,7 @@
     "bootstrap": "^5.3.3",
     "ng-apexcharts": "^1.11.0",
     "ngx-scrollbar": "^15.0.1",
+    "primeng": "^17.18.10",
     "rxjs": "~7.8.1",
     "screenfull": "^6.0.2",
     "tslib": "^2.6.3",
