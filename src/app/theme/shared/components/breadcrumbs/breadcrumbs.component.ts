@@ -1,9 +1,9 @@
-// angular import
-import { Component, Input } from '@angular/core';
+// Angular imports
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-// project import
+// Project imports
 import { NavigationService } from '../../../layout/admin/navigation/navigation';
 
 @Component({
@@ -11,12 +11,12 @@ import { NavigationService } from '../../../layout/admin/navigation/navigation';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './breadcrumbs.component.html',
-  styleUrl: './breadcrumbs.component.scss'
+  styleUrls: ['./breadcrumbs.component.scss']
 })
-export class BreadcrumbsComponent {
+export class BreadcrumbsComponent implements OnInit {
   @Input() type: string;
 
-  navigation: any;
+  navigation: any[] = [];
   breadcrumbList: Array<any> = [];
   navigationList: any;
 
@@ -24,9 +24,21 @@ export class BreadcrumbsComponent {
     private _router: Router,
     public nav: NavigationService,
     private titleService: Title
-  ) {
-    this.navigation = this.nav.get();
-    this.setBreadcrumb();
+  ) {}
+
+  ngOnInit() {
+    this.nav.get().subscribe({
+      next: (items) => {
+        this.navigation = items;
+        this.setBreadcrumb();
+      },
+      error: (err) => {
+        console.error('Error al obtener los ítems de navegación', err);
+        // Manejo de errores, como mostrar un mensaje o establecer valores predeterminados
+        this.navigation = [];
+        this.setBreadcrumb();
+      }
+    });
   }
 
   setBreadcrumb() {
@@ -35,66 +47,73 @@ export class BreadcrumbsComponent {
       routerUrl = router.urlAfterRedirects;
       if (routerUrl && typeof routerUrl === 'string') {
         this.breadcrumbList.length = 0;
-        const activeLink = router.url;
+        const activeLink = routerUrl; // Asegúrate de que esto sea el URL correcto
         this.filterNavigation(activeLink);
       }
     });
   }
 
-  filterNavigation(activeLink) {
+  filterNavigation(activeLink: string) {
     let result: any;
     let title = 'Welcome';
-    this.navigation.forEach(function (a) {
-      if (a.type === 'item' && 'url' in a && a.url === activeLink) {
-        result = [
-          {
-            url: 'url' in a ? a.url : false,
-            title: a.title,
-            breadcrumbs: 'breadcrumbs' in a ? a.breadcrumbs : true,
-            type: a.type
-          }
-        ];
-        title = a.title;
-      } else {
-        if (a.type === 'group' && 'children' in a) {
-          a.children.forEach(function (b) {
-            if (b.type === 'item' && 'url' in b && b.url === activeLink) {
-              result = [
-                {
-                  url: 'url' in b ? b.url : false,
-                  title: b.title,
-                  breadcrumbs: 'breadcrumbs' in b ? b.breadcrumbs : true,
-                  type: b.type
-                }
-              ];
-              title = b.title;
-            } else {
-              if (b.type === 'collapse' && 'children' in b) {
-                b.children.forEach(function (c) {
-                  if (c.type === 'item' && 'url' in c && c.url === activeLink) {
-                    result = [
-                      {
-                        url: 'url' in b ? b.url : false,
-                        title: b.title,
-                        breadcrumbs: 'breadcrumbs' in b ? b.breadcrumbs : true,
-                        type: b.type
-                      },
-                      {
-                        url: 'url' in c ? c.url : false,
-                        title: c.title,
-                        breadcrumbs: 'breadcrumbs' in c ? c.breadcrumbs : true,
-                        type: c.type
-                      }
-                    ];
-                    title = c.title;
-                  }
-                });
-              }
+
+    if (this.navigation && Array.isArray(this.navigation)) {
+      this.navigation.forEach((a) => {
+        if (a.type === 'item' && 'url' in a && a.url === activeLink) {
+          result = [
+            {
+              url: 'url' in a ? a.url : false,
+              title: a.title,
+              breadcrumbs: 'breadcrumbs' in a ? a.breadcrumbs : true,
+              type: a.type
             }
-          });
+          ];
+          title = a.title;
+        } else {
+          if (a.type === 'group' && 'children' in a) {
+            a.children.forEach((b) => {
+              if (b.type === 'item' && 'url' in b && b.url === activeLink) {
+                result = [
+                  {
+                    url: 'url' in b ? b.url : false,
+                    title: b.title,
+                    breadcrumbs: 'breadcrumbs' in b ? b.breadcrumbs : true,
+                    type: b.type
+                  }
+                ];
+                title = b.title;
+              } else {
+                if (b.type === 'collapse' && 'children' in b) {
+                  b.children.forEach((c) => {
+                    if (c.type === 'item' && 'url' in c && c.url === activeLink) {
+                      result = [
+                        {
+                          url: 'url' in b ? b.url : false,
+                          title: b.title,
+                          breadcrumbs: 'breadcrumbs' in b ? b.breadcrumbs : true,
+                          type: b.type
+                        },
+                        {
+                          url: 'url' in c ? c.url : false,
+                          title: c.title,
+                          breadcrumbs: 'breadcrumbs' in c ? c.breadcrumbs : true,
+                          type: c.type
+                        }
+                      ];
+                      title = c.title;
+                    }
+                  });
+                }
+              }
+            });
+          }
         }
-      }
-    });
+      });
+    } else {
+      console.warn('No hay datos de navegación disponibles');
+      result = [];
+    }
+
     this.navigationList = result;
     this.titleService.setTitle(title + ' | Proyecto Prueba');
   }

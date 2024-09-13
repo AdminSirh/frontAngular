@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, catchError, map, BehaviorSubject } from 'rxjs';
+import { Observable, of, catchError, map } from 'rxjs';
 import { CrudService } from 'src/services/crud.service';
 import { LoginService } from 'src/services/login.service';
 
@@ -25,26 +25,32 @@ export interface NavigationItem {
 })
 export class NavigationService {
   private readonly endpoint = 'menu';
-  private navigationItemsSubject = new BehaviorSubject<NavigationItem[]>([]);
-  public navigationItems$ = this.navigationItemsSubject.asObservable();
+  private isLoggedIn: boolean = false;
+  private user: any = null;
 
   constructor(
     private crudService: CrudService,
     private loginService: LoginService
   ) {
+    // Inicializar el estado de autenticación y los ítems de navegación
+    this.updateLoginStatus();
+    if (this.isLoggedIn) {
+      this.loadNavigationItems().subscribe();
+    }
+
     // Suscribirse a los cambios en el estado de autenticación
-    this.loginService.loginStatusSubjec.subscribe((isLoggedIn) => {
-      if (isLoggedIn) {
-        this.loadNavigationItems().subscribe((items) => this.navigationItemsSubject.next(items));
-      } else {
-        this.navigationItemsSubject.next([]);
+    this.loginService.loginStatusSubjec.subscribe(() => {
+      this.updateLoginStatus();
+      console.log(this.isLoggedIn);
+      if (this.isLoggedIn) {
+        this.loadNavigationItems().subscribe();
       }
     });
+  }
 
-    // Inicializar los ítems de navegación si el usuario ya está logueado
-    if (this.loginService.isLoggedIn()) {
-      this.loadNavigationItems().subscribe((items) => this.navigationItemsSubject.next(items));
-    }
+  private updateLoginStatus(): void {
+    this.isLoggedIn = this.loginService.isLoggedIn();
+    this.user = this.isLoggedIn ? this.loginService.getUser() : null;
   }
 
   private loadNavigationItems(): Observable<NavigationItem[]> {
@@ -111,6 +117,9 @@ export class NavigationService {
   }
 
   get(): Observable<NavigationItem[]> {
-    return this.navigationItems$;
+    if (!this.isLoggedIn) {
+      return of([]); // Retorna un Observable vacío si no está logueado
+    }
+    return this.loadNavigationItems();
   }
 }
