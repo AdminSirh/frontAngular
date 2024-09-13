@@ -47,7 +47,7 @@ export class BreadcrumbsComponent implements OnInit {
       routerUrl = router.urlAfterRedirects;
       if (routerUrl && typeof routerUrl === 'string') {
         this.breadcrumbList.length = 0;
-        const activeLink = routerUrl; // Asegúrate de que esto sea el URL correcto
+        const activeLink = routerUrl; 
         this.filterNavigation(activeLink);
       }
     });
