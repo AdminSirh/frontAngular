@@ -101,35 +101,31 @@
 </div>
 
 <!--**************************************************************MODAL PARA EDITAR MENU***************************************************************************** -->
-<div class="modal fade" id="modificarMenuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modificar Menú</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formdata">
-          <div class="text-end">
-            <label class="text-danger"><small>* Campos Obligatorios</small></label>
-            <br />
-          </div>
-          <div class="mb-3">
-            <input id="menuNombre_edita" name="menuNombre_edita" class="form-control" placeholder="* Menu" type="text" />
-            <input id="id_menu" #idMenuInput type="hidden" />
-          </div>
-          <div class="mb-3">
-            <input id="descripcion_edita" name="descripcion_edita" class="form-control" placeholder="* Descripción" type="text" />
-          </div>
-          <div class="mb-3">
-            <input id="orden_edita" name="orden_edita" class="form-control" placeholder="* Orden" type="number" />
-          </div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" style="width: 216px">Cancelar</button>
-            <button type="button" name="botonenviar" (click)="updateMenu()" class="btn btn-primary" style="width: 216px">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
+<ng-template #modificarMenuModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Modificar Menú</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
   </div>
-</div>
+  <div class="modal-body">
+    <form [formGroup]="menuForm" (ngSubmit)="updateMenu()">
+      <div class="text-end">
+        <label class="text-danger"><small>* Campos Obligatorios</small></label>
+        <br />
+      </div>
+      <div class="mb-3">
+        <input formControlName="menuNombre" class="form-control" placeholder="* Menu" type="text" />
+        <input formControlName="id" type="hidden" />
+      </div>
+      <div class="mb-3">
+        <input formControlName="descripcion" class="form-control" placeholder="* Descripción" type="text" />
+      </div>
+      <div class="mb-3">
+        <input formControlName="orden" class="form-control" placeholder="* Orden" type="number" />
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" type="button" (click)="modal.dismiss('Cross click')" style="width: 216px">Cancelar</button>
+        <button type="submit" class="btn btn-primary" style="width: 216px">Guardar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
