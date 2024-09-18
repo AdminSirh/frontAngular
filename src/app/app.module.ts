@@ -29,6 +29,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MessageService } from 'primeng/api';
 import { UserActivityService } from 'src/services/user-activity.service';
+import { DataTablesModule } from 'angular-datatables';
 //Interceptor para las peticiones con bearer token
 import { authInterceptorProviders } from '../services/auth.interceptor';
 
@@ -60,7 +61,8 @@ import { authInterceptorProviders } from '../services/auth.interceptor';
     HttpClientModule,
     ToastModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    DataTablesModule
   ],
   providers: [NavigationService, authInterceptorProviders, MessageService, UserActivityService],
   bootstrap: [AppComponent]

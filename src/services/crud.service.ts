@@ -26,7 +26,7 @@ export class CrudService {
 
   // Método para actualizar un registro por ID
   update(endpoint: string, id: number | string, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/${endpoint}/${id}`, data);
+    return this.http.post(`${baseUrl}/${endpoint}/${id}`, data);
   }
 
   // Método para eliminar un registro por ID
