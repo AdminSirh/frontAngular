@@ -28,6 +28,7 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MessageService } from 'primeng/api';
+import { UserActivityService } from 'src/services/user-activity.service';
 //Interceptor para las peticiones con bearer token
 import { authInterceptorProviders } from '../services/auth.interceptor';
 
@@ -61,7 +62,7 @@ import { authInterceptorProviders } from '../services/auth.interceptor';
     ButtonModule,
     RippleModule
   ],
-  providers: [NavigationService, authInterceptorProviders, MessageService],
+  providers: [NavigationService, authInterceptorProviders, MessageService, UserActivityService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

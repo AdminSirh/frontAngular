@@ -20,8 +20,11 @@ export class AuthInterceptor implements HttpInterceptor {
         setHeaders: { Authorization: `Bearer ${token}` }
       });
     }
-    /*Si el error es el 401 siginfica que el token del usuario ha expirado, se redirige a login
-    El tiempo de expiración es de 30 min, en la clase JwtUtils del backend (crearToken())*/
+    /*Si el error en la solicitud es el 401 siginfica que el token del usuario ha expirado, 
+    se redirige a signin.
+    El tiempo de expiración en el backend es de una hora, en la clase JwtUtils del backend (crearToken())
+    UserActivityService se encarga de refrescar el token cada 55 min y de redirigir al 
+    usuario s signin por inactividad*/
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {

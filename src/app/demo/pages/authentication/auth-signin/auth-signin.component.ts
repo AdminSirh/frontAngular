@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
@@ -14,7 +14,7 @@ import { ToastModule } from 'primeng/toast';
   templateUrl: './auth-signin.component.html',
   styleUrls: ['./auth-signin.component.scss']
 })
-export default class AuthSigninComponent {
+export default class AuthSigninComponent implements OnInit {
   // Datos del formulario de inicio de sesión
   loginData = {
     username: '',
@@ -24,8 +24,25 @@ export default class AuthSigninComponent {
   constructor(
     private loginService: LoginService,
     private router: Router,
+    private route: ActivatedRoute,
     private messageService: MessageService
   ) {}
+
+  ngOnInit() {
+    // Verifica si el parámetro "sessionExpired" está presente
+    this.route.queryParams.subscribe((params) => {
+      if (params['sessionExpired'] === 'true') {
+        setTimeout(() => {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Sesión Expirada',
+            detail: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+            sticky: true
+          });
+        }, 100);
+      }
+    });
+  }
 
   // Método para manejar el inicio de sesión
   login() {
@@ -53,11 +70,21 @@ export default class AuthSigninComponent {
       },
       (error) => {
         console.error('Error during login', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Ocurrió un error al iniciar sesión: ' + error.error.message
-        });
+
+        if (error.status === 0) {
+          // Error de conexión o servidor no disponible
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error de conexión',
+            detail: 'El servidor no está disponible. Intente nuevamente más tarde.'
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al iniciar sesión: ' + (error.error || 'Error desconocido')
+          });
+        }
       }
     );
   }

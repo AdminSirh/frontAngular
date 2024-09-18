@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Subject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import baserUrl from './helper';
 
 @Injectable({
@@ -26,6 +27,20 @@ export class LoginService {
     return true;
   }
 
+  // Renovar el token
+  public refreshToken(): Observable<any> {
+    return this.http.post<any>(`${baserUrl}/refresh-token`, {}).pipe(
+      tap((response) => {
+        this.loginUser(response.token);
+      }),
+      catchError((error) => {
+        this.logout();
+        return throwError(error);
+      })
+    );
+  }
+
+  //Se verifica si el usuario está loggeado
   public isLoggedIn() {
     let tokenStr = localStorage.getItem('token');
     if (tokenStr == undefined || tokenStr == '' || tokenStr == null) {
