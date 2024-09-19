@@ -10,7 +10,7 @@
       <!-- Card Body -->
       <div class="card-body">
         <div class="mb-3">
-          <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agregarMenuModal">
+          <button type="button" class="btn btn-outline-success" (click)="openAddMenuModal()">
             <span class="fa fa-object-group"></span>
             Agregar Nuevo Menú
           </button>
@@ -45,60 +45,34 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="agregarMenuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Menú</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" id="formGuardarMenu" class="needs-validation" novalidate>
-          <div class="text-end">
-            <label class="text-danger"><small>* Campos Obligatorios</small></label>
-            <br />
-          </div>
-          <div class="mb-3">
-            <input
-              name="menuNombre"
-              id="menuNombre"
-              class="form-control"
-              minlength="3"
-              maxlength="25"
-              autocomplete="off"
-              placeholder="*Nombre de menú"
-              type="text"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <input
-              name="descripcion"
-              id="descripcion"
-              class="form-control"
-              minlength="3"
-              maxlength="25"
-              autocomplete="off"
-              placeholder="*Descripción"
-              type="text"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <input id="orden" name="orden" class="form-control" placeholder="* Orden" type="number" required />
-          </div>
-          <hr />
-          <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-secondary" id="btn_Cancelar" data-bs-dismiss="modal" style="width: 216px">Cancelar</button>
-            <button type="submit" name="botonenviar" class="btn btn-primary" id="botonenviar" value="Enviar" style="width: 216px">
-              Guardar
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+<ng-template #agregarMenuModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Agregar Menú</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
-</div>
+  <div class="modal-body">
+    <form [formGroup]="menuForm" (ngSubmit)="saveMenu()">
+      <div class="text-end">
+        <label class="text-danger"><small>* Campos Obligatorios</small></label>
+        <br />
+      </div>
+      <div class="mb-3">
+        <input formControlName="menuNombre" class="form-control" placeholder="* Menu" type="text" />
+        <input formControlName="id" type="hidden" />
+      </div>
+      <div class="mb-3">
+        <input formControlName="descripcion" class="form-control" placeholder="* Descripción" type="text" />
+      </div>
+      <div class="mb-3">
+        <input formControlName="orden" class="form-control" placeholder="* Orden" type="number" />
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" type="button" (click)="modal.dismiss('Cross click')" style="width: 216px">Cancelar</button>
+        <button type="submit" class="btn btn-primary" style="width: 216px">Guardar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
 
 <!--**************************************************************MODAL PARA EDITAR MENU***************************************************************************** -->
 <ng-template #modificarMenuModal let-modal>

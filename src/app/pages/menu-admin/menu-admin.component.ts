@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { CrudService } from 'src/services/crud.service';
 import { MessageService } from 'primeng/api';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -13,8 +14,12 @@ import { ToastModule } from 'primeng/toast';
   imports: [ReactiveFormsModule, ToastModule]
 })
 export class MenuAdminComponent implements AfterViewInit {
+  //Modales
   @ViewChild('modificarMenuModal') modificarMenuModal!: TemplateRef<any>;
+  @ViewChild('agregarMenuModal') agregarMenuModal!: TemplateRef<any>;
+  //Formularios
   menuForm: FormGroup;
+  //Variables
   private table: any;
   private modalRef?: NgbModalRef;
 
@@ -22,7 +27,8 @@ export class MenuAdminComponent implements AfterViewInit {
     private crudService: CrudService,
     private messageService: MessageService,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {
     this.menuForm = this.fb.group({
       id: [''],
@@ -52,6 +58,7 @@ export class MenuAdminComponent implements AfterViewInit {
       if (dataTable) {
         // Limpiar eventos anteriores
         (window as any).$('#tablaMenu').off('click', '.edit-btn');
+        (window as any).$('#tablaMenu').off('click', '.sub-btn');
         dataTable.destroy();
       }
 
@@ -97,18 +104,28 @@ export class MenuAdminComponent implements AfterViewInit {
             data: null,
             title: 'Sub Menú',
             render: (data: any) => `
-              <a href="#" class="btn btn-outline-info" onclick="verSubMenu(${data.id})">
+              <button class="btn btn-outline-info sub-btn" data-id="${data.id}">
                 <i class="fa fa-search"></i> Administrar
-              </a>`
+              </button>`
           }
         ]
       });
-
+      //Click en el botón editar
       (window as any).$('#tablaMenu').on('click', '.edit-btn', (event: any) => {
         const id = Number(event.currentTarget.getAttribute('data-id'));
+        console.log(id);
         this.openEditMenuModal(id);
       });
+      //Click en el botón administrar submenú
+      (window as any).$('#tablaMenu').on('click', '.sub-btn', (event: any) => {
+        const id = Number(event.currentTarget.getAttribute('data-id'));
+        this.verSubMenu(id);
+      });
     }
+  }
+
+  openAddMenuModal(): void {
+    this.modalRef = this.modalService.open(this.agregarMenuModal);
   }
 
   openEditMenuModal(id: number): void {
@@ -120,6 +137,33 @@ export class MenuAdminComponent implements AfterViewInit {
         this.modalRef = this.modalService.open(this.modificarMenuModal);
       },
       error: (error) => this.handleError('Error al cargar los datos del menú', error)
+    });
+  }
+
+  saveMenu(): void {
+    if (this.menuForm.invalid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Todos los campos son obligatorios y deben ser válidos'
+      });
+      return;
+    }
+
+    const { menuNombre, descripcion, orden } = this.menuForm.value;
+    const nuevoMenu = { menuNombre, descripcion, orden: Number(orden) };
+
+    this.crudService.create('menu/guardarMenu', nuevoMenu).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Menú agregado correctamente'
+        });
+        this.loadMenuData();
+        this.closeCurrentModal();
+      },
+      error: (error) => this.handleError('Error al agregar el menú', error)
     });
   }
 
@@ -159,7 +203,9 @@ export class MenuAdminComponent implements AfterViewInit {
     });
   }
 
-  verSubMenu(id: number): void {}
+  verSubMenu(id: number): void {
+    this.router.navigate(['/subMenuAdmin'], { queryParams: { id_menu: id } });
+  }
 
   private closeCurrentModal(): void {
     if (this.modalRef) {

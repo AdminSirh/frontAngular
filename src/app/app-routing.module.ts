@@ -5,6 +5,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
 import { authGuard } from 'src/services/auth.guard';
 import { MainComponent } from './pages/main/main.component';
 import { MenuAdminComponent } from './pages/menu-admin/menu-admin.component';
+import { SubMenuAdminComponent } from './pages/sub-menu-admin/sub-menu-admin.component';
 
 const routes: Routes = [
   {
@@ -46,15 +47,20 @@ const routes: Routes = [
         loadComponent: () => import('./demo/extra/sample-page/sample-page.component'),
         canActivate: [authGuard]
       },
+      //Agregados para el proyecto
       {
         path: 'menuAdmin',
         component: MenuAdminComponent,
         canActivate: [authGuard]
       },
-      //Agregados para el proyecto
       {
         path: 'home',
         component: MainComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'subMenuAdmin',
+        component: SubMenuAdminComponent,
         canActivate: [authGuard]
       }
     ]
