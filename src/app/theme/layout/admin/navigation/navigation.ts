@@ -54,7 +54,7 @@ export class NavigationService {
   }
 
   private loadNavigationItems(): Observable<NavigationItem[]> {
-    return this.crudService.getAll(this.endpoint).pipe(
+    return this.crudService.getGenerico(this.endpoint).pipe(
       map((backendData: any[]) => {
         // Asegúrate de que backendData es un array
         if (!Array.isArray(backendData)) {

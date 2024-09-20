@@ -35,7 +35,7 @@ export class PasswordModalComponent {
       const { password_Actual, password_Nuevo, ...datos } = this.modifyPassword.value;
 
       // Verifica la contraseña actual antes de proceder
-      this.crudService.verificarPassword(password_Actual).subscribe({
+      this.crudService.getGenerico('usuarios/verificarPassword', password_Actual).subscribe({
         next: (response) => {
           if (response.data) {
             // Si la contraseña actual es válida, actualiza la contraseña

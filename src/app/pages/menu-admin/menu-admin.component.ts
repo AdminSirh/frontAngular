@@ -43,7 +43,7 @@ export class MenuAdminComponent implements AfterViewInit {
   }
 
   private loadMenuData(): void {
-    this.crudService.getAll('menu/listarMenu').subscribe({
+    this.crudService.getGenerico('menu/listarMenu').subscribe({
       next: (data) => this.initializeDataTable(data),
       error: (error) => this.handleError('Error al cargar los datos', error)
     });
@@ -130,7 +130,7 @@ export class MenuAdminComponent implements AfterViewInit {
   openEditMenuModal(id: number): void {
     // Cerrar el modal actual si está abierto y limpiar la referencia
     this.closeCurrentModal();
-    this.crudService.getById('menu/buscarMenu', id).subscribe({
+    this.crudService.getGenerico('menu/buscarMenu', id).subscribe({
       next: (data) => {
         this.menuForm.patchValue(data.data);
         this.modalRef = this.modalService.open(this.modificarMenuModal);
@@ -152,7 +152,7 @@ export class MenuAdminComponent implements AfterViewInit {
     const { menuNombre, descripcion, orden } = this.menuForm.value;
     const nuevoMenu = { menuNombre, descripcion, orden: Number(orden) };
 
-    this.crudService.create('menu/guardarMenu', nuevoMenu).subscribe({
+    this.crudService.postGenerico('menu/guardarMenu', nuevoMenu).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',

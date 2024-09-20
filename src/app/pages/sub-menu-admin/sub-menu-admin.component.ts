@@ -53,7 +53,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
   }
 
   private loadSubMenuData(id: number): void {
-    this.crudService.getById('submenu/listarSubMenuAll', id).subscribe({
+    this.crudService.getGenerico('submenu/listarSubMenuAll', id).subscribe({
       next: (data) => this.initializeDataTable(data),
       error: (error) => this.handleError('Error al cargar los datos', error)
     });
@@ -185,7 +185,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
   openEditSubMenuModal(id: number): void {
     // Cerrar el modal actual si está abierto y limpiar la referencia
     this.closeCurrentModal();
-    this.crudService.getById('submenu/buscarSubmenu', id).subscribe({
+    this.crudService.getGenerico('submenu/buscarSubmenu', id).subscribe({
       next: (data) => {
         this.subMenuForm.patchValue(data);
         this.modalRef = this.modalService.open(this.editarSubMenuModal);
@@ -199,7 +199,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
     this.closeCurrentModal();
     // Arreglo para guardar los nombres de los roles
     let roleNames: string[] = [];
-    this.crudService.getById('submenu/buscarSubmenuRol', id).subscribe({
+    this.crudService.getGenerico('submenu/buscarSubmenuRol', id).subscribe({
       next: (response) => {
         // Validar que response.data esté definido y sea un array
         if (response && Array.isArray(response.data)) {
@@ -222,7 +222,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
 
   funcionListarRoles(submenuId: number, roles: string[]): void {
     this.submenuId = submenuId;
-    this.crudService.getAll('rol/listarRoles').subscribe({
+    this.crudService.getGenerico('rol/listarRoles').subscribe({
       next: (data) => {
         if (data && Array.isArray(data.data)) {
           this.roles = data.data.map((role) => ({
@@ -238,14 +238,8 @@ export class SubMenuAdminComponent implements AfterViewInit {
   }
 
   desactivarRol(submenuId: number, rolId: number): void {
-    // Datos que se enviarán en la solicitud
-    const datos = {
-      submenu: { id: submenuId },
-      rol: { id: rolId }
-    };
-
     // Llamada al nuevo método para eliminar el rol del submenu
-    this.crudService.desactivarRol(submenuId, rolId, datos).subscribe({
+    this.crudService.postGenerico('submenu/eliminarRol', {}, submenuId, rolId).subscribe({
       next: (data) => {
         // Mostrar mensaje de éxito
         this.messageService.add({
@@ -269,7 +263,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
       submenu: { id: submenuId }
     };
 
-    this.crudService.create('submenu/guardarSubmenuRol', datos).subscribe({
+    this.crudService.postGenerico('submenu/guardarSubmenuRol', datos).subscribe({
       next: (data) => {
         this.messageService.add({
           severity: 'success',
@@ -286,7 +280,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
   }
 
   private reloadAssignedRoles(submenuId: number): void {
-    this.crudService.getById('submenu/buscarSubmenuRol', submenuId).subscribe({
+    this.crudService.getGenerico('submenu/buscarSubmenuRol', submenuId).subscribe({
       next: (response) => {
         if (response && Array.isArray(response.data)) {
           const roleNames = response.data.map((element) => element.rolNombre);
@@ -318,7 +312,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
       activo: 1
     };
 
-    this.crudService.create('submenu/guardaSubmenu', nuevoSubMenu).subscribe({
+    this.crudService.postGenerico('submenu/guardaSubmenu', nuevoSubMenu).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',

@@ -38,7 +38,7 @@ export class LogUsuariosComponent implements OnInit {
     if (this.filtradoForm.valid) {
       const { fechaDesde, fechaHasta } = this.filtradoForm.value;
       this.loading = true; // Mostrar el spinner
-      this.crudService.getMovimientos(fechaDesde, fechaHasta).subscribe({
+      this.crudService.getGenerico('adminLog/listarMovimientos', fechaDesde, fechaHasta).subscribe({
         next: (data) => {
           this.initializeDataTable(data);
           this.loading = false; // Ocultar el spinner
