@@ -6,6 +6,7 @@ import { authGuard } from 'src/services/auth.guard';
 import { MainComponent } from './pages/main/main.component';
 import { MenuAdminComponent } from './pages/menu-admin/menu-admin.component';
 import { SubMenuAdminComponent } from './pages/sub-menu-admin/sub-menu-admin.component';
+import { LogUsuariosComponent } from './pages/log-usuarios/log-usuarios.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,11 @@ const routes: Routes = [
       {
         path: 'subMenuAdmin',
         component: SubMenuAdminComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'movimientosUsuario',
+        component: LogUsuariosComponent,
         canActivate: [authGuard]
       }
     ]

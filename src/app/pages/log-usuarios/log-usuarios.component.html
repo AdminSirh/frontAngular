@@ -1,0 +1,102 @@
+<p-toast></p-toast>
+<div class="row">
+  <div class="col-md-10">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 fw-bold text-primary">Movimientos</h6>
+        <h4 class="m-0 fw-bold text-primary text-end">Usuarios / Log</h4>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="alert alert-info rounded mx-auto">
+          <div class="icon">
+            <strong><h5>Movimientos Registrados</h5></strong>
+            <i class="fa fa-search mx-auto"></i>
+            <b>Criterios de Búsqueda:</b>
+            Todas las columnas
+            <br />
+            <form [formGroup]="filtradoForm" (ngSubmit)="filtrar()">
+              <div class="row mb-3">
+                <div class="col-sm-4">
+                  <label for="fechaDesde">Desde:</label>
+                  <input
+                    type="date"
+                    id="fechaDesde"
+                    formControlName="fechaDesde"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        filtradoForm.get('fechaDesde')?.invalid &&
+                        (filtradoForm.get('fechaDesde')?.touched || filtradoForm.get('fechaDesde')?.dirty)
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      filtradoForm.get('fechaDesde')?.invalid &&
+                      (filtradoForm.get('fechaDesde')?.touched || filtradoForm.get('fechaDesde')?.dirty)
+                    "
+                    class="invalid-feedback"
+                  >
+                    Este campo es requerido.
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <label for="fechaHasta">Hasta:</label>
+                  <input
+                    type="date"
+                    id="fechaHasta"
+                    formControlName="fechaHasta"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        filtradoForm.get('fechaHasta')?.invalid &&
+                        (filtradoForm.get('fechaHasta')?.touched || filtradoForm.get('fechaHasta')?.dirty)
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      filtradoForm.get('fechaHasta')?.invalid &&
+                      (filtradoForm.get('fechaHasta')?.touched || filtradoForm.get('fechaHasta')?.dirty)
+                    "
+                    class="invalid-feedback"
+                  >
+                    Este campo es requerido.
+                  </div>
+                </div>
+                <div class="col-auto align-self-end">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-filter"></i>
+                    Filtrar
+                  </button>
+                </div>
+                <div class="col-auto align-self-end">
+                  <p-progressSpinner *ngIf="loading" [style]="{ width: '50px', height: '50px' }"></p-progressSpinner>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered" id="tabla_log" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th width="3px">ID</th>
+                <th>Usuario</th>
+                <th>Id_lod</th>
+                <th>Ejecutó</th>
+                <th>Función</th>
+                <th>IP</th>
+                <th>URL</th>
+                <th>Metodo</th>
+                <th>Parametros</th>
+                <th>Creacion</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

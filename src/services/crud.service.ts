@@ -65,4 +65,10 @@ export class CrudService {
     const url = `${baseUrl}/usuarios/verificarPassword/${password}`;
     return this.http.get(url);
   }
+
+  // Método para recuperar movimientos por fechas
+  getMovimientos(desde: string, hasta: string): Observable<any> {
+    const url = `${baseUrl}/adminLog/listarMovimientos/${desde}/${hasta}`;
+    return this.http.get<any>(url);
+  }
 }
