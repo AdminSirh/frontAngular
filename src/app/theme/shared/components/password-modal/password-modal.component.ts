@@ -2,13 +2,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
+import { CommonModule } from '@angular/common';
 import { CrudService } from 'src/services/crud.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-password-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, ToastModule, CommonModule], // Agrega CommonModule aquí
+  imports: [ReactiveFormsModule, ToastModule, CommonModule],
   templateUrl: './password-modal.component.html',
   styleUrls: ['./password-modal.component.scss']
 })
@@ -19,7 +20,8 @@ export class PasswordModalComponent {
   constructor(
     private fb: FormBuilder,
     private crudService: CrudService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private modalService: NgbModal
   ) {
     this.modifyPassword = this.fb.group({
       password_Actual: ['', [Validators.required, Validators.minLength(8)]],
@@ -45,33 +47,19 @@ export class PasswordModalComponent {
                   detail: 'La contraseña ha sido actualizada exitosamente.',
                   life: 3000
                 });
-                //Timeout para el emit del evento 
+                // Timeout para el emit del evento
                 setTimeout(() => {
                   this.submitSuccess.emit();
                   this.resetForm();
-                }, 1000);
+                }, 900);
               },
-              error: (error) => {
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error',
-                  detail: 'No se pudo actualizar la contraseña. Intente de nuevo más tarde.',
-                  life: 3000
-                });
-              }
+              error: (error) => this.handleError('No se pudo actualizar la contraseña.', error)
             });
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La contraseña actual no es correcta.', life: 3000 });
           }
         },
-        error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudo verificar la contraseña actual. Intente de nuevo más tarde.',
-            life: 3000
-          });
-        }
+        error: (error) => this.handleError('No se pudo verificar la contraseña actual.', error)
       });
     } else {
       this.messageService.add({
@@ -93,5 +81,11 @@ export class PasswordModalComponent {
       summary: 'Error',
       detail: `${message}: ${error.message || error}`
     });
+  }
+
+  close() {
+    if (this.modalService) {
+      this.modalService.dismissAll();
+    }
   }
 }
