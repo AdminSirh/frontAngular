@@ -50,7 +50,7 @@
 <ng-template #agregarSubMenuModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Agregar Sub Menú</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="subMenuForm" (ngSubmit)="saveSubMenu()">
@@ -77,7 +77,7 @@
 <ng-template #editarSubMenuModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Agregar Sub Menú</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="subMenuForm" (ngSubmit)="updateSubMenu()">
@@ -104,7 +104,7 @@
 <ng-template #modalActivate let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Cambiar Status De Submenu</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
   </div>
   <div class="modal-body mx-auto">
     <button class="btn btn-secondary mx-3" type="button" data-dismiss="modal">Cancelar</button>
@@ -117,7 +117,7 @@
 <ng-template #modaleDeactivate let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Cambiar Status De Submenu</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
   </div>
   <div class="modal-body mx-auto">
     <button class="btn btn-secondary mx-3" type="button" data-dismiss="modal">Cancelar</button>

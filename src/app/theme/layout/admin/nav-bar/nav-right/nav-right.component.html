@@ -84,7 +84,7 @@
         </div>
         <ul class="pro-body">
           <li>
-            <a href="javascript:" class="dropdown-item">
+            <a href="javascript:" class="dropdown-item" (click)="openPasswordModal()">
               <i class="feather icon-settings"></i>
               Cambiar contraseña
             </a>
@@ -107,8 +107,12 @@
               Lock Screen
             </a>
           </li> -->
-        </ul> 
+        </ul>
       </div>
     </div>
   </li>
 </ul>
+<ng-template #cambiarcontrasenaModal let-modal>
+  <app-password-modal (submitSuccess)="closeModal()"></app-password-modal>
+</ng-template>
+

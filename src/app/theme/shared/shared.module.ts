@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardComponent } from './components/card/card.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { PasswordModalComponent } from './components/password-modal/password-modal.component';
 
 // bootstrap import
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,7 +26,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     NgbModule,
     NgScrollbarModule,
     NgbCollapseModule,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    PasswordModalComponent
   ],
   exports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     NgbModule,
     NgScrollbarModule,
     NgbCollapseModule,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    PasswordModalComponent
   ]
 })
 export class SharedModule {}

@@ -54,4 +54,15 @@ export class CrudService {
     const url = `${baseUrl}/submenu/eliminarRol/${submenuId}/${rolId}`;
     return this.http.post(url, datos);
   }
+
+  cambiarContrasena(passwordNuevo: string, datos: any): Observable<any> {
+    const url = `${baseUrl}/usuarios/cambiaContrasena/${passwordNuevo}`;
+    return this.http.post(url, datos, { headers: { 'Content-Type': 'application/json' } });
+  }
+
+  // Método para verificar la contraseña actual del usuario
+  verificarPassword(password: string): Observable<any> {
+    const url = `${baseUrl}/usuarios/verificarPassword/${password}`;
+    return this.http.get(url);
+  }
 }

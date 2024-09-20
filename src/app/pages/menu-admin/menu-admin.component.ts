@@ -113,7 +113,6 @@ export class MenuAdminComponent implements AfterViewInit {
       //Click en el botón editar
       (window as any).$('#tablaMenu').on('click', '.edit-btn', (event: any) => {
         const id = Number(event.currentTarget.getAttribute('data-id'));
-        console.log(id);
         this.openEditMenuModal(id);
       });
       //Click en el botón administrar submenú
