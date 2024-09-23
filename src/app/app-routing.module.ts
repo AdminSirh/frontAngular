@@ -5,6 +5,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
 import { authGuard } from 'src/services/auth.guard';
 import { MainComponent } from './pages/main/main.component';
 import { MenuAdminComponent } from './pages/menu-admin/menu-admin.component';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { SubMenuAdminComponent } from './pages/sub-menu-admin/sub-menu-admin.component';
 import { LogUsuariosComponent } from './pages/log-usuarios/log-usuarios.component';
 import { CatalogosAdminComponent } from './pages/catalogos-admin/catalogos-admin.component';
@@ -54,6 +55,11 @@ const routes: Routes = [
       {
         path: 'menuAdmin',
         component: MenuAdminComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'usuariosAdmin',
+        component: UsuariosComponent,
         canActivate: [authGuard]
       },
       {

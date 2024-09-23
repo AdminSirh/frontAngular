@@ -25,4 +25,10 @@ export class CrudService {
     const url = `${baseUrl}/usuarios/cambiaContrasena/${passwordNuevo}`;
     return this.http.post(url, datos, { headers: { 'Content-Type': 'application/json' } });
   }
+
+  updateById(endpoint: string, param: any): Observable<any> {
+    const params = { password: param };
+    return this.http.post(`${baseUrl}/${endpoint}`, params);
+  }
+  
 }
