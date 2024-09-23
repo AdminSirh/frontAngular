@@ -1,0 +1,233 @@
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 fw-bold text-primary">Administración de usuarios</h6>
+    <h4 class="m-0 fw-bold text-primary text-end">Administración / Usuarios</h4>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    <div class="mb-3">
+      <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" (click)="openAgregarUsuarioModal()">
+        <span class="fa fa-user-plus"></span>
+        Agregar Nuevo Usuario
+      </button>
+      <br />
+    </div>
+    <!-- PRUEBA BÚSQUEDA -->
+    <div class="alert alert-info rounded mx-auto">
+      <div class="icon ">
+        <strong><h5>Usuarios Registrados</h5></strong> <i class="fa fa-search mx-auto"></i><strong> Criterios de Búsqueda: </strong> Nombre, Apellidos, UserName 
+    </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered" id="usuariosTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Username</th>
+            <th>Editar</th>
+            <th>Cambiar Activo/Inactivo</th>
+            <th>Asignar Roles</th>
+            <th>Modificar Password</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AGREGAR USUARIO -->
+<ng-template #agregarUsuarioModal let-modal>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+          <button class="close" type="button" (click)="modal.dismiss('Cross click')" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="formUsuario">
+              <div class="form-group">
+                  <label for="nombre">Nombre</label>
+                  <input maxlength="40" formControlName="nombre" autocomplete="off" class="form-control" type="text" required>
+              </div>
+              <div class="form-group">
+                  <label for="ap_paterno">Apellido Paterno</label>
+                  <input maxlength="40" formControlName="ap_paterno" autocomplete="off" class="form-control" type="text" required>
+              </div>
+              <div class="form-group">
+                  <label for="ap_materno">Apellido Materno</label>
+                  <input maxlength="40" formControlName="ap_materno" autocomplete="off" class="form-control" type="text" required>
+              </div>
+              <div class="form-group">
+                  <label for="usuario">Nombre de Usuario</label>
+                  <input maxlength="40" formControlName="usuario" autocomplete="off" class="form-control" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input minlength="8" formControlName="password" autocomplete="off" class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+            </div>
+              <hr>
+              <div class="form-group col-12">
+                  <button class="btn btn-secondary" type="button" (click)="modal.dismiss('cancel')">Cancelar</button>
+                  <button class="btn btn-success" type="button" (click)="guardarUsuario()" >Actualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</ng-template>
+
+<!-- MODAL EDITAR USUARIO -->
+<ng-template #editarUsuarioModal let-modal>
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+              <button class="close" type="button" (click)="modal.dismiss('Cross click')" aria-label="Close"><span aria-hidden="true">×</span></button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="formUsuario">
+                  <div class="form-group">
+                      <input type="hidden" formControlName="idUsuario">
+                  </div> 
+                  <div class="form-group">
+                      <label for="nombre_edita">Nombre</label>
+                      <input maxlength="40" formControlName="nombre_edita" autocomplete="off" class="form-control" type="text" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="ap_paterno_edita">Apellido Paterno</label>
+                      <input maxlength="40" formControlName="ap_paterno_edita" autocomplete="off" class="form-control" type="text" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="ap_materno_edita">Apellido Materno</label>
+                      <input maxlength="40" formControlName="ap_materno_edita" autocomplete="off" class="form-control" type="text" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="username_edita">Nombre de Usuario</label>
+                      <input maxlength="40" formControlName="usuario_edita" autocomplete="off" class="form-control" type="text" required>
+                  </div>
+                  <hr>
+                  <div class="form-group col-12">
+                      <button class="btn btn-secondary" type="button" (click)="modal.dismiss('cancel')">Cancelar</button>
+                      <button class="btn btn-success" type="button" (click)="editarUsuario()" >Actualizar</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+</ng-template>
+
+
+<!-- MODAL ESTATUS DE USUARIO -->
+<ng-template #estatusModalActivo let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Cambiar Status De Usuario</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body mx-auto">
+    <button class="btn btn-secondary mx-3" type="button" (click)="modal.dismiss('Cancelar')">Cancelar</button>
+    <button id="botonDeshabilitar" type="submit" class="btn btn-danger" (click)="inhabilitar()">Deshabilitar Usuario</button>
+  </div>
+  <div class="modal-footer">
+  </div>
+</ng-template>
+
+<ng-template #estatusModalInactivo let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Cambiar Status De Usuario</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body mx-auto">
+    <button class="btn btn-secondary mx-3" type="button" (click)="modal.dismiss('Cancelar')">Cancelar</button>
+    <button id="botonHabilitar" type="submit" class="btn btn-success" (click)="habilitar()">Habilitar Usuario</button>
+  </div>
+  <div class="modal-footer">
+  </div>
+</ng-template>
+
+
+<!-- MODAL PARA ROLES -->
+<ng-template #rolesModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="d-flex">
+          <h5 class="modal-title text-center" id="exampleModalLabel" style="text-align: center">
+            Seleccionar Roles
+          </h5>
+          <button class="close" type="button" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true" >×</span>
+          </button>
+      </div>  
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formRoles" id="formRoles">
+        <div class="form-group">
+          <div id="rolesLista" class="col-lg-7">
+            <ul>
+              <!-- Itera sobre la lista de roles obtenida -->
+                  <div *ngFor="let rol of rolesDisponibles">
+                    <div class="d-flex justify-content-between">
+                      <label for="primary" class="btn btn-outline-info col-6 " style="width: 200px" >{{ rol.rolNombre }}</label>
+                      <button 
+                        *ngIf="rolesUsuario.includes(rol.rolNombre)" 
+                        type="button" 
+                        class="btn btn-danger btn-sm ml-2"
+                        (click)="desactivarRol(idUsuario, rol.id)">
+                        Desactivar
+                      </button>
+
+                      <button 
+                        *ngIf="!rolesUsuario.includes(rol.rolNombre)" 
+                        type="button" 
+                        class="btn btn-success btn-sm ml-2"
+                        (click)="asignarRol(idUsuario, rol.id)">
+                        Activar
+                      </button>
+                    </div>
+              </div>
+            </ul>
+            
+          </div>
+        </div>
+        <hr>
+        <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">
+          <button class="btn btn-secondary" type="button" (click)="modal.dismiss('Close click')" style="width: 216px">
+            Cerrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<!-- MODAL PARA ROLES -->
+<ng-template #passwordModal let-modal>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Actualizar Contraseña</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="formContrasena" id="formPass" class="needs-validation" novalidate>
+              <div class="form-group">
+                  <b>Contraseña Nueva</b>
+                  <input formControlName="password_update" minlength="8" maxlength="40" name="password_update" id="password_update" autocomplete="off" class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                  <div id="alerta_Modificar" class="invalid-feedback">Ingresa una contraseña válida.</div>
+              </div>
+              <div class="text-right">
+                  <label class="text-danger">
+                      <small>Contraseña: 8 Caracteres mínimo, Mayúsculas, Minúsculas, Números y un caracter especial ej [!#$&%"'()*+-./_]</small>
+                  </label><br>
+              </div>
+              <br>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+              <button class="btn btn-primary" style="background-color: #0869BA;" (click)="cambiarPassword()">Guardar Cambios</button>
+          </form>
+      </div>
+  </div>
+</ng-template>
