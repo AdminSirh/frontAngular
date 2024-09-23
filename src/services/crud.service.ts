@@ -21,26 +21,6 @@ export class CrudService {
     return this.http.get<any>(url);
   }
 
-  // Método para actualizar un registro con parámetros adicionales en la URL
-  update(
-    endpoint: string,
-    id: number | string,
-    data?: any,
-    esConParametros: boolean = false,
-    params?: (string | number)[]
-  ): Observable<any> {
-    let url = `${baseUrl}/${endpoint}/${id}`;
-
-    if (esConParametros && params && params.length > 0) {
-      // Añadir múltiples parámetros adicionales a la URL
-      url += `/${params.join('/')}`;
-      return this.http.get(url);
-    } else {
-      // Si no hay parámetros adicionales, enviar datos en el cuerpo
-      return this.http.post(url, data);
-    }
-  }
-
   cambiarContrasena(passwordNuevo: string, datos: any): Observable<any> {
     const url = `${baseUrl}/usuarios/cambiaContrasena/${passwordNuevo}`;
     return this.http.post(url, datos, { headers: { 'Content-Type': 'application/json' } });

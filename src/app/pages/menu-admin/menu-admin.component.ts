@@ -179,7 +179,7 @@ export class MenuAdminComponent implements AfterViewInit {
     const { id, menuNombre, descripcion, orden } = this.menuForm.value;
     const menuActualizado = { id, menuNombre, descripcion, orden: Number(orden) };
 
-    this.crudService.update('menu/actualizarMenu', id, menuActualizado).subscribe({
+    this.crudService.postGenerico('menu/actualizarMenu', menuActualizado, id).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',

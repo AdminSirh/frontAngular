@@ -163,7 +163,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
     if (this.estatusId !== null) {
       const nuevoActivo = activar ? 1 : 0;
 
-      this.crudService.update('submenu/estatusSubmenu', this.estatusId, undefined, true, [nuevoActivo.toString()]).subscribe({
+      this.crudService.getGenerico('submenu/estatusSubmenu', this.estatusId, [nuevoActivo.toString()]).subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
@@ -243,7 +243,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
       next: (data) => {
         // Mostrar mensaje de éxito
         this.messageService.add({
-          severity: 'error',
+          severity: 'warn',
           summary: 'Aviso',
           detail: 'El rol ha sido eliminado correctamente'
         });
@@ -340,7 +340,7 @@ export class SubMenuAdminComponent implements AfterViewInit {
     const { id, submenuNombre, descripcion } = this.subMenuForm.value;
     const subMenuActualizado = { id, submenuNombre, descripcion };
 
-    this.crudService.update('submenu/actualizarSubmenu', id, subMenuActualizado).subscribe({
+    this.crudService.postGenerico('submenu/actualizarSubmenu', subMenuActualizado, id).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',
