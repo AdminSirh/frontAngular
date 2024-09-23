@@ -7,6 +7,8 @@ import { MainComponent } from './pages/main/main.component';
 import { MenuAdminComponent } from './pages/menu-admin/menu-admin.component';
 import { SubMenuAdminComponent } from './pages/sub-menu-admin/sub-menu-admin.component';
 import { LogUsuariosComponent } from './pages/log-usuarios/log-usuarios.component';
+import { CatalogosAdminComponent } from './pages/catalogos-admin/catalogos-admin.component';
+import { ListaCatalogosComponent } from './pages/lista-catalogos/lista-catalogos.component';
 
 const routes: Routes = [
   {
@@ -67,6 +69,16 @@ const routes: Routes = [
       {
         path: 'movimientosUsuario',
         component: LogUsuariosComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'catalogosAdmin',
+        component: ListaCatalogosComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'administraCatalogo',
+        component: CatalogosAdminComponent,
         canActivate: [authGuard]
       }
     ]

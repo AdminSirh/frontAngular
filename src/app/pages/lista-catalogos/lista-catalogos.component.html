@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card shadow mb-4">
+      <!-- Card Header -->
+      <div class="card-header d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 fw-bold text-primary">Catálogos</h6>
+        <h4 class="m-0 fw-bold text-primary text-end">Listado de Catálogos</h4>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="alert alert-info rounded mx-auto">
+          <div class="icon">
+            <strong><h5>Catálogos Disponibles</h5></strong>
+            <i class="fa fa-list mx-auto"></i>
+            <b>Total de Catálogos:</b>
+            {{ catalogos.length }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 mb-2" *ngFor="let catalogo of catalogos">
+            <button class="btn btn-primary w-100" (click)="redirigir(catalogo)">
+              {{ formatearCatalogo(catalogo) }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

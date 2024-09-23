@@ -1,0 +1,105 @@
+<div class="container">
+  <p-toast preventOpenDuplicates="true"></p-toast>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card shadow mb-4">
+        <!-- Card Header -->
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 fw-bold text-primary">Administración de {{ catalogoConfig.nombre }}</h6>
+          <h4 class="m-0 fw-bold text-primary text-end">Administración / {{ catalogoConfig.nombre }}</h4>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="mb-3">
+            <button (click)="openModal()" class="btn btn-primary">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              Agregar Nuevo
+            </button>
+            <br />
+          </div>
+          <div class="alert alert-info rounded mx-auto">
+            <div class="icon">
+              <strong>
+                <h5>Catálogo {{ catalogoConfig.nombre }}</h5>
+              </strong>
+              <i class="fa fa-search mx-auto"></i>
+              <strong>Criterios de Búsqueda:</strong>
+              {{ catalogoKeys.join(', ') }}
+              <!-- Mostrar las claves del catálogo -->
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered" id="tablaCatalogos" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th *ngFor="let key of catalogoKeys">{{ key }}</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Los datos se cargarán dinámicamente con DataTable -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Template -->
+  <ng-template #catalogoModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">{{ currentCatalog ? 'Editar Elemento' : 'Agregar Elemento' }}</h5>
+      <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="catalogoForm">
+        <div *ngFor="let key of catalogoKeys">
+          <div class="form-group">
+            <label [for]="key">{{ key }}</label>
+            <input
+              [id]="key"
+              [formControlName]="key"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': catalogoForm.get(key)?.invalid && catalogoForm.get(key)?.touched }"
+            />
+            <div *ngIf="catalogoForm.get(key)?.invalid && catalogoForm.get(key)?.touched" class="invalid-feedback">
+              Este campo es obligatorio.
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeCurrentModal()">Cerrar</button>
+      <button type="button" class="btn btn-primary" (click)="saveCatalogo()">Guardar</button>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Modal activa -->
+<ng-template #modalActivate let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Cambiar Estatus Del Catálogo</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+  </div>
+  <div class="modal-body mx-auto">
+    <button class="btn btn-secondary mx-3" type="button" data-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-success" (click)="changeStatus(false)">Deshabilitar</button>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>
+
+<!-- Modal desactiva -->
+<ng-template #modaleDeactivate let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Cambiar Estatus De Catálogo</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+  </div>
+  <div class="modal-body mx-auto">
+    <button class="btn btn-secondary mx-3" type="button" data-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="changeStatus(true)">Activar</button>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>
