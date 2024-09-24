@@ -58,8 +58,15 @@ export class CatalogosAdminComponent implements AfterViewInit {
         );
       /*Se pueden seguir agregando todos los que sean necesarios, el nombre del case es
         el nombre de la tabla en la base de datos y se recibe como parámetro en la url...*/
-      case 'tipoX':
-        return new CatalogoConfig('Tipo X', 'tipoX/listar', 'tipoX/agregar', 'tipoX/editar', 'tipoX/eliminar', 'tipoX/estatus');
+      case 'catalogo_genero':
+        return new CatalogoConfig(
+          'Género',
+          'catalogos/listarDatosGenero',
+          'catalogos/guardarGenero',
+          'catalogos/editarGenero',
+          'tipoX/eliminar',
+          'catalogos/cambioEstatusGenero'
+        );
       default:
         this.handleError('Error al encontrar el menú', 'error');
         throw new Error('Tipo de catálogo no reconocido');
@@ -125,7 +132,7 @@ export class CatalogosAdminComponent implements AfterViewInit {
             data: null,
             title: 'Acciones',
             render: (data: any) => `
-              <button class="btn btn-outline-primary edit-btn" data-id="${data.id}">  
+              <button class="btn btn-outline-primary edit-btn" data-id="${this.findId(data)}">  
                 <i class="fa fa-edit"></i> Editar
               </button>`
           },
@@ -135,10 +142,10 @@ export class CatalogosAdminComponent implements AfterViewInit {
             render: (data: any, type: any, row: any) => {
               const isActive = row.activo === 1 || row.estatus === 1 || row.status == 1;
               return isActive
-                ? `<button class="btn btn-outline-danger estatus-btn" data-id="${row.id}" data-activo="${isActive ? 1 : 0}">
+                ? `<button class="btn btn-outline-danger estatus-btn" data-id="${this.findId(data)}" data-activo="${isActive ? 1 : 0}">
                      <span class="fa fa-minus-circle"></span> Desactivar
                    </button>`
-                : `<button class="btn btn-outline-success estatus-btn" data-id="${row.id}" data-activo="${isActive ? 1 : 0}">
+                : `<button class="btn btn-outline-success estatus-btn" data-id="${this.findId(data)}"data-activo="${isActive ? 1 : 0}">
                      <span class="fa fa-plus-circle"></span> Activar
                    </button>`;
             }
@@ -168,7 +175,7 @@ export class CatalogosAdminComponent implements AfterViewInit {
       // Manejo de clics en los botones
       (window as any).$('#tablaCatalogos').on('click', '.edit-btn', (event: any) => {
         const id = Number(event.currentTarget.getAttribute('data-id'));
-        this.openModal(this.catalogos.find((c) => c.id === id));
+        this.openModal(this.catalogos.find((c) => this.findId(c) === id));
       });
 
       //Click en el botón de estatus (Solo despliega los modales)
@@ -189,22 +196,22 @@ export class CatalogosAdminComponent implements AfterViewInit {
   initializeForm(item: any): void {
     this.catalogoForm.reset(); // Reinicia el formulario
     for (const key in item) {
-      if (item.hasOwnProperty(key) && key !== 'id' && key !== 'estatus' && key !== 'status') {
+      if (item.hasOwnProperty(key) && !this.shouldExcludeKey(key)) {
         this.catalogoForm.addControl(key, this.fb.control(item[key], Validators.required)); // Agrega la validación solo a los campos necesarios
       }
     }
     this.catalogoKeys = this.getCatalogoKeys();
   }
 
-  getCatalogoKeys(): string[] {
-    return this.catalogos.length > 0
-      ? //Aquí se colocan los elementos a descartar del formulario como id, estatus o status
-        Object.keys(this.catalogos[0]).filter((key) => key !== 'id' && key !== 'estatus' && key !== 'status')
-      : [];
+  private shouldExcludeKey(key: string): boolean {
+    // Verifica si la clave debe ser excluida
+    return key.startsWith('id') || key === 'estatus' || key === 'status';
   }
 
-  trackById(index: number, catalogo: any): number {
-    return catalogo.id;
+  getCatalogoKeys(): string[] {
+    return this.catalogos.length > 0
+      ? Object.keys(this.catalogos[0]).filter((key) => !this.shouldExcludeKey(key)) // Filtra las claves a excluir
+      : [];
   }
 
   openModal(item?: any): void {
@@ -227,8 +234,9 @@ export class CatalogosAdminComponent implements AfterViewInit {
       return; // Detiene la ejecución si el formulario es inválido
     }
     if (this.currentCatalog) {
+      const id = this.findId(this.currentCatalog);
       this.crudService
-        .postGenerico(`${this.catalogoConfig.urlEditar}`, body, this.currentCatalog.id)
+        .postGenerico(`${this.catalogoConfig.urlEditar}`, body, id)
         .subscribe(this.handleSaveSuccess.bind(this), this.handleError.bind(this, 'Ocurrió un error al actualizar el catálogo'));
     } else {
       this.crudService
@@ -287,5 +295,9 @@ export class CatalogosAdminComponent implements AfterViewInit {
   // Función para capitalizar la primera letra
   private capitalizeFirstLetter(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+
+  private findId(item: any): number | undefined {
+    return Object.keys(item).find((key) => key.startsWith('id')) ? item[Object.keys(item).find((key) => key.startsWith('id'))!] : undefined;
   }
 }
