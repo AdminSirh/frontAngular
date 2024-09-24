@@ -27,6 +27,7 @@
     "angular-datatables": "^18.0.0",
     "apexcharts": "^3.49.2",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.4",
     "datatables.net": "^2.0.3",
     "datatables.net-bs5": "^2.0.3",
     "jquery": "^3.6.0",
