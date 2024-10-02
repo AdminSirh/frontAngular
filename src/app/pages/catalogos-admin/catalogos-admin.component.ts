@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CrudService } from 'src/services/crud.service';
+import { LoginService } from 'src/services/login.service';
 import { MessageService } from 'primeng/api';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -31,9 +32,11 @@ export class CatalogosAdminComponent implements AfterViewInit {
   private table: any;
   private estatusId: number | null = null;
   private estatusActivo: number | null = null;
+  valorConsulta: any[] = [];
 
   constructor(
     private crudService: CrudService,
+    private loginService: LoginService,
     private messageService: MessageService,
     private fb: FormBuilder,
     private modalService: NgbModal,
@@ -46,6 +49,8 @@ export class CatalogosAdminComponent implements AfterViewInit {
   }
 
   private initializeCatalogoConfig(tipoCatalogo: string): CatalogoConfig {
+    this.obtenerValorConsulta();
+
     switch (tipoCatalogo) {
       case 'catalogo_si_no':
         return new CatalogoConfig(
@@ -56,15 +61,13 @@ export class CatalogosAdminComponent implements AfterViewInit {
           'urlElimina',
           'catalogos/estadoSiNo'
         );
-      /*Se pueden seguir agregando todos los que sean necesarios, el nombre del case es
-        el nombre de la tabla en la base de datos y se recibe como parámetro en la url...*/
       case 'catalogo_genero':
         return new CatalogoConfig(
-          'Género',
+          'Genero',
           'catalogos/listarDatosGenero',
           'catalogos/guardarGenero',
           'catalogos/editarGenero',
-          'tipoX/eliminar',
+          'urlElimina',
           'catalogos/cambioEstatusGenero'
         );
       default:
@@ -143,11 +146,11 @@ export class CatalogosAdminComponent implements AfterViewInit {
               const isActive = row.activo === 1 || row.estatus === 1 || row.status == 1;
               return isActive
                 ? `<button class="btn btn-outline-danger estatus-btn" data-id="${this.findId(data)}" data-activo="${isActive ? 1 : 0}">
-                     <span class="fa fa-minus-circle"></span> Desactivar
-                   </button>`
+                    <span class="fa fa-minus-circle"></span> Desactivar
+                  </button>`
                 : `<button class="btn btn-outline-success estatus-btn" data-id="${this.findId(data)}"data-activo="${isActive ? 1 : 0}">
-                     <span class="fa fa-plus-circle"></span> Activar
-                   </button>`;
+                    <span class="fa fa-plus-circle"></span> Activar
+                  </button>`;
             }
           }
         ],
@@ -248,7 +251,6 @@ export class CatalogosAdminComponent implements AfterViewInit {
   changeStatus(activar: boolean): void {
     if (this.estatusId !== null) {
       const nuevoActivo = activar ? 1 : 0;
-
       this.crudService.getGenerico(`${this.catalogoConfig.urlEstatus}`, this.estatusId, [nuevoActivo.toString()]).subscribe({
         next: () => this.handleStatusSuccess(activar),
         error: (error) => this.handleError('Error al actualizar el estatus del submenu', error)
@@ -299,5 +301,18 @@ export class CatalogosAdminComponent implements AfterViewInit {
 
   private findId(item: any): number | undefined {
     return Object.keys(item).find((key) => key.startsWith('id')) ? item[Object.keys(item).find((key) => key.startsWith('id'))!] : undefined;
+  }
+  
+  obtenerValorConsulta() {
+    const user = this.loginService.getUser(); // Obtiene el valor directamente
+    if (user) {
+      this.valorConsulta = user.authorities; 
+    } else {
+      console.error('No se encontró ningún usuario almacenado.');
+    }
+  }
+
+  tieneRol(rol: string): boolean {
+    return this.valorConsulta.some(r => r.authority === rol);
   }
 }

@@ -43,8 +43,8 @@
 <ng-template #agregarUsuarioModal let-modal>
   <div class="modal-content">
       <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
-          <button class="close" type="button" (click)="modal.dismiss('Cross click')" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
       </div>
       <div class="modal-body">
           <form [formGroup]="formUsuario">
@@ -83,7 +83,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
-              <button class="close" type="button" (click)="modal.dismiss('Cross click')" aria-label="Close"><span aria-hidden="true">×</span></button>
+              <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
           </div>
           <div class="modal-body">
               <form [formGroup]="formUsuario">
@@ -121,9 +121,7 @@
 <ng-template #estatusModalActivo let-modal>
   <div class="modal-header">
     <h5 class="modal-title">Cambiar Status De Usuario</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
   </div>
   <div class="modal-body mx-auto">
     <button class="btn btn-secondary mx-3" type="button" (click)="modal.dismiss('Cancelar')">Cancelar</button>
@@ -136,9 +134,7 @@
 <ng-template #estatusModalInactivo let-modal>
   <div class="modal-header">
     <h5 class="modal-title">Cambiar Status De Usuario</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
   </div>
   <div class="modal-body mx-auto">
     <button class="btn btn-secondary mx-3" type="button" (click)="modal.dismiss('Cancelar')">Cancelar</button>
@@ -154,12 +150,10 @@
   <div class="modal-content">
     <div class="modal-header">
       <div class="d-flex">
-          <h5 class="modal-title text-center" id="exampleModalLabel" style="text-align: center">
+          <h5 class="modal-title text-center" id="exampleModalLabel" >
             Seleccionar Roles
           </h5>
-          <button class="close" type="button" (click)="modal.dismiss('Cross click')" aria-label="Close">
-            <span aria-hidden="true" >×</span>
-          </button>
+          <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
       </div>  
     </div>
     <div class="modal-body">
@@ -208,9 +202,7 @@
   <div class="modal-content">
       <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Actualizar Contraseña</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-          </button>
+          <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
       </div>
       <div class="modal-body">
           <form [formGroup]="formContrasena" id="formPass" class="needs-validation" novalidate>
