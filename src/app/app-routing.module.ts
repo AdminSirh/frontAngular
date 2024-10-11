@@ -10,7 +10,6 @@ import { SubMenuAdminComponent } from './pages/sub-menu-admin/sub-menu-admin.com
 import { LogUsuariosComponent } from './pages/log-usuarios/log-usuarios.component';
 import { CatalogosAdminComponent } from './pages/catalogos-admin/catalogos-admin.component';
 import { ListaCatalogosComponent } from './pages/lista-catalogos/lista-catalogos.component';
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -86,12 +85,6 @@ const routes: Routes = [
       {
         path: 'administraCatalogo',
         component: CatalogosAdminComponent,
-        canActivate: [authGuard]
-      },
-      // Redirigir cualquier ruta no encontrada a PageNotFoundComponent
-      {
-        path: '**',
-        component: PageNotFoundComponent,
         canActivate: [authGuard]
       }
     ]
