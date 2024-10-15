@@ -8,68 +8,56 @@
       <!-- Se eliminan los espacios entre columnas -->
       <div class="col">
         <br />
-        <div id="logUsuarios">
+        <div id="logUsuarios" (click)="navegar('/movimientosUsuario')">
           <label class="form-label" for="addon-wrapping-left">Log de Usuarios</label>
           <br />
-          <a href="/movimientosUsuario">
-            <img src="assets/images/tiempo.png" width="100" height="100" />
-          </a>
+          <img src="assets/images/tiempo.png" width="100" height="100" />
         </div>
       </div>
 
       <div class="col">
         <br />
-        <div id="usuariosAdmin">
+        <div id="usuariosAdmin" (click)="navegar('/usuariosAdmin')">
           <label class="form-label" for="addon-wrapping-left">Usuarios</label>
           <br />
-          <a href="/usuariosAdmin">
-            <img src="assets/images/empleados.png" width="100" height="100" />
-          </a>
+          <img src="assets/images/empleados.png" width="100" height="100" />
         </div>
       </div>
 
       <div class="col">
         <br />
-        <div id="expedientesAdmin">
+        <div id="expedientesAdmin" (click)="navegar('/expedientesAdmin')">
           <label class="form-label" for="addon-wrapping-left">Expedientes</label>
           <br />
-          <a href="/expedientesAdmin">
-            <img src="assets/images/expediente.png" width="100" height="100" />
-          </a>
+          <img src="assets/images/expediente.png" width="100" height="100" />
         </div>
       </div>
 
       <div class="col">
         <br />
-        <div id="catalogosAdmin">
+        <div id="catalogosAdmin" (click)="navegar('/catalogosAdmin')">
           <label class="form-label" for="addon-wrapping-left">Catálogos</label>
           <br />
-          <a href="/catalogosAdmin">
-            <img src="assets/images/revista.png" width="100" height="100" />
-          </a>
+          <img src="assets/images/revista.png" width="100" height="100" />
         </div>
       </div>
 
       <div class="col me-2">
         <!-- Ajuste de margen end para reducir espacio entre columnas -->
         <br />
-        <div id="trabajadoresAdmin">
+        <div id="trabajadoresAdmin" (click)="navegar('/trabajadoresAdmin')">
           <label class="form-label" for="addon-wrapping-left">Trabajadores</label>
           <br />
-          <a href="/trabajadoresAdmin">
-            <img src="assets/images/trabajo-en-equipo.png" width="100" height="100" />
-          </a>
+          <img src="assets/images/trabajo-en-equipo.png" width="100" height="100" />
         </div>
       </div>
 
       <div class="col">
         <br />
-        <div id="reportesGenerales">
+        <div id="reportesGenerales" (click)="navegar('/reportesGenerales')">
           <label class="form-label" for="addon-wrapping-left">Reportes</label>
           <br />
-          <a href="/reportesGenerales">
-            <img src="assets/images/reporte.png" width="100" height="100" />
-          </a>
+          <img src="assets/images/reporte.png" width="100" height="100" />
         </div>
       </div>
     </div>

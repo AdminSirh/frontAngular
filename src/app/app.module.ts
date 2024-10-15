@@ -32,6 +32,7 @@ import { UserActivityService } from 'src/services/user-activity.service';
 import { DataTablesModule } from 'angular-datatables';
 //Interceptor para las peticiones con bearer token
 import { authInterceptorProviders } from '../services/auth.interceptor';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,14 @@ import { authInterceptorProviders } from '../services/auth.interceptor';
     RippleModule,
     DataTablesModule
   ],
-  providers: [NavigationService, authInterceptorProviders, MessageService, UserActivityService],
+  providers: [
+    NavigationService,
+    authInterceptorProviders,
+    MessageService,
+    UserActivityService,
+    //Se colocan providers para no tener problema de enrutamiento en el servidor
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
